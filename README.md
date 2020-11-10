@@ -7,3 +7,5 @@ Reflection of theoretical tasks can be found [here](https://github.com/nadsatt/k
 1. [html-css-popup](https://nadsatt.github.io/kottans-homeworks/html-css-popup/).
 
 2. [dom](https://nadsatt.github.io/kottans-homeworks/dom-api/).
+
+3. [tiny-js-world](https://nadsatt.github.io/kottans-homeworks/tiny-js-world).
