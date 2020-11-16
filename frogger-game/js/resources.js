@@ -50,5 +50,5 @@
         readyCallbacks.push(func);
     }
 
-    window.Resources = { load, get, onReady, isReady };
+    window.Resources = { load, get, onReady, isReady }; 
 })();

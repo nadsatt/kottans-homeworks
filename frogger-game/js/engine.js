@@ -3,153 +3,50 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime,
-        score = 0;
-    
-    global.ctx = ctx;
+        lastTime;
+
     canvas.width = 505;
     canvas.height = 606;
-
-    const settingsList = doc.querySelector('.settings-list');
-    settingsList.after(canvas);
-
-    const scoreSpan = doc.querySelector('.score__value');
-    scoreSpan.textContent = score;
-
-    let player,
-        allEnemies;
-
-    const fieldImgs = [
-        'images/stone-block.png',
-        'images/water-block.png',
-        'images/grass-block.png'  
-    ];
-    const enemyImgs = [
-        'images/enemy-dog.png',
-        'images/enemy-bug.png'
-    ];
-    const playerImgs = [
-        'images/char-cat.png',
-        'images/char-boy.png',
-        'images/char-cat-girl.png',
-        'images/char-horn-girl.png',
-        'images/char-pink-girl.png'
-    ];
-    
-    settingsList.addEventListener('click', function({target}){
-        if(target.className === 'settings__item'){
-            switch (target.dataset.change){
-                case 'player':
-                    changePlayerImg();
-                    break;
-                case 'enemies':
-                    changeEnemyImgs();
-                    break;
-                case 'speed':
-                    changeEnemiesSpeed();
-                    break;
-            }
-        }
-    })
-
-    document.addEventListener('keyup', function(e) {
-        var allowedKeys = {
-            37: 'left',
-            38: 'up',
-            39: 'right',
-            40: 'down'
-        };
-    
-        player.handleInput(allowedKeys[e.keyCode]);
-    });
-
-    Resources.load(fieldImgs.concat(
-        enemyImgs, 
-        playerImgs
-    ));
-    Resources.onReady(init);
-
-    function init() {
-        initEntities();
-        
-        lastTime = Date.now();
-        main();
-    }
-
-    function initEntities(){
-        const initialYs = [135, 218, 301];
-        let imgIndex = 0;
-
-        player = new Player(
-            Resources.get(playerImgs[imgIndex]), 
-            imgIndex,
-            Player.initialX, 
-            Player.initialY
-        );
-        
-        allEnemies = initialYs.map(initialY => 
-            new Enemy(
-                Resources.get(enemyImgs[imgIndex]), 
-                imgIndex,
-                Enemy.initialX, 
-                initialY, 
-                Enemy.getRandomSpeed()
-            )
-        );
-    }
+    doc.body.appendChild(canvas);
 
     function main() {
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
-        updateEntities(dt);
-        renderField();
-        renderEnemies();
+        update(dt);
+        render();
 
         lastTime = now;
 
-        if(checkCollisions()){
-            setTimeout(() => {
-                alert('You lose!');
+        win.requestAnimationFrame(main);
+    }
 
-                score = 0;
-                updateScore();
+    function init() {
+        reset();
+        lastTime = Date.now();
+        main();
+    }
 
-                reset();
-    
-            }, 0);
-        }
-        else if(checkWin()){
-            setTimeout(() => {
-                alert('You won!');
-
-                score += 1;
-                updateScore();
-
-                reset();
-            }, 0);
-        }
-        else {
-            win.requestAnimationFrame(main);
-        }
+    function update(dt) {
+        updateEntities(dt);
+        // checkCollisions();
     }
 
     function updateEntities(dt) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+        player.update();
     }
 
-    function renderField() {
+    function render() {
         var rowImages = [
-                'images/water-block.png',  
-                'images/stone-block.png', 
-                'images/stone-block.png', 
-                'images/stone-block.png', 
-                'images/grass-block.png', 
-                'images/grass-block.png',
-                'images/char-boy-cropped.png',
-                'images/char-cat-girl-cropped.png'
+                'images/water-block.png',   // Top row is water
+                'images/stone-block.png',   // Row 1 of 3 of stone
+                'images/stone-block.png',   // Row 2 of 3 of stone
+                'images/stone-block.png',   // Row 3 of 3 of stone
+                'images/grass-block.png',   // Row 1 of 2 of grass
+                'images/grass-block.png'    // Row 2 of 2 of grass
             ],
             numRows = 6,
             numCols = 5,
@@ -162,9 +59,11 @@ var Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
+
+        renderEntities();
     }
 
-    function renderEnemies() {
+    function renderEntities() {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -172,57 +71,18 @@ var Engine = (function(global) {
         player.render();
     }
 
-    function checkCollisions(){
-        return allEnemies.some(enemy => enemy.checkCollisions(player));
+    function reset() {
+        // noop
     }
 
-    function checkWin(){
-         return player.checkWin();
-    }
+    Resources.load([
+        'images/stone-block.png',
+        'images/water-block.png',
+        'images/grass-block.png',
+        'images/enemy-dog.png',
+        'images/char-cat.png'
+    ]);
+    Resources.onReady(init);
 
-    function reset(){
-        resetEntities(); 
-                
-        lastTime = Date.now();
-        main();
-    }
-
-    function resetEntities(){
-        player.reset();
-        allEnemies.forEach(enemy => enemy.reset());
-    }
-
-    function updateScore(){
-        scoreSpan.textContent = score; 
-    }
-
-    function changePlayerImg(){
-        let imgIndex = player.imgIndex;
-        imgIndex = increaseImgIndex(imgIndex, playerImgs);
-
-        img = Resources.get(playerImgs[imgIndex]);
-
-        player.changeImg(imgIndex, img);
-    }
-
-    function changeEnemyImgs(){
-        let imgIndex = allEnemies[0].imgIndex;
-        imgIndex = increaseImgIndex(imgIndex, enemyImgs);
-
-        let img = Resources.get(enemyImgs[imgIndex]);
-
-        allEnemies.forEach(enemy => {
-            enemy.changeImg(imgIndex, img);
-        });
-    }
-
-    function increaseImgIndex(imgIndex, entityImgs){
-        return imgIndex === entityImgs.length - 1 ? 0 : ++imgIndex;
-    }
-
-    function changeEnemiesSpeed(){
-        allEnemies.forEach(enemy => 
-            enemy.changeSpeed()
-        );
-    }
+    global.ctx = ctx;
 })(this);
