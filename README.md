@@ -8,6 +8,8 @@ Reflection of theoretical tasks can be found [here](https://github.com/nadsatt/k
 
 2. [dom](https://nadsatt.github.io/kottans-homeworks/dom-api/).
 
-3. [tiny-js-world](https://nadsatt.github.io/kottans-homeworks/tiny-js-world).
+3. [pre-oop](https://nadsatt.github.io/kottans-homeworks/pre-oop/).
 
 4. [frogger-game](https://nadsatt.github.io/kottans-homeworks/frogger-game).
+
+5. [post-oop](https://nadsatt.github.io/kottans-homeworks/post-oop/).
