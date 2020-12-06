@@ -13,3 +13,5 @@ Reflection of theoretical tasks can be found [here](https://github.com/nadsatt/k
 4. [frogger-game](https://nadsatt.github.io/kottans-homeworks/frogger-game).
 
 5. [post-oop](https://nadsatt.github.io/kottans-homeworks/post-oop/).
+
+6. [memory-pair-game](https://nadsatt.github.io/kottans-homeworks/memory-pair-game/).
