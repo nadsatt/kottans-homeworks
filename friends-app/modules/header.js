@@ -26,7 +26,7 @@ export class Header {
     defineIconElement(){
         this.iconElement = this.element.querySelector('.header__sound-icon');
 
-        const sound = new Audio('./../sounds/audio.mp3');
+        const sound = new Audio('sounds/audio.mp3');
         sound.loop = true;
         this.iconElement.sound = sound;
     }
