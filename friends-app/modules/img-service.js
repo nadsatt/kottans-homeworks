@@ -6,7 +6,7 @@ export class ImgService {
         const maleNumber = 40;
         const usersNumber = 100;
 
-        this.femaleImgPaths = [...Array(femaleNumber).keys()].map(i => `./../images/female/female${++i}.jpeg`);
+        this.femaleImgPaths = [...Array(femaleNumber).keys()].map(i => `../images/female/female${++i}.jpeg`);
         this.maleImgPaths = [...Array(maleNumber).keys()].map(i => `./../images/male/male${++i}.jpeg`);
         this.borderImgPaths = [...Array(usersNumber).keys()].map(() => './../images/user-card-imgs/user-card-border.png');
         this.backImgPaths = [...Array(usersNumber).keys()].map(() => './../images/user-card-imgs/user-card-back-bg.jpg');
