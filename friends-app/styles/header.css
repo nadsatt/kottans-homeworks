@@ -5,7 +5,6 @@
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    margin-bottom: 15px;
     background-color: var(--gray-color);
     border: 1px solid;
     border-image: linear-gradient(to right, var(--light-brown-color) 85%, transparent 100%) 1 / 1 / 0 stretch;
