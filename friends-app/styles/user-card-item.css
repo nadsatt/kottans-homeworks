@@ -85,16 +85,16 @@
 }
 
 .user-card-item:nth-of-type(n) .user-card__front-header {
-    background-image:  url('./../images/user-card-imgs/user-card-header-brown.jpg');
+    background-image:  url('images/user-card-imgs/user-card-header-brown.jpg');
 }
 .user-card-item:nth-of-type(2n) .user-card__front-header {
-    background-image:  url('./../images/user-card-imgs/user-card-header-green.jpg');
+    background-image:  url('images/user-card-imgs/user-card-header-green.jpg');
 }
 .user-card-item:nth-of-type(n) .user-card__back-header {
-    background-image:  url('./../images/user-card-imgs/user-card-header-brown.jpg');
+    background-image:  url('images/user-card-imgs/user-card-header-brown.jpg');
 }
 .user-card-item:nth-of-type(2n) .user-card__back-header {
-    background-image:  url('./../images/user-card-imgs/user-card-header-green.jpg');
+    background-image:  url('images/user-card-imgs/user-card-header-green.jpg');
 }
 
 .user-card__front-heading {
