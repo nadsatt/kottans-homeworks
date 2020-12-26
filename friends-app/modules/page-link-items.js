@@ -1,22 +1,28 @@
 export class PageLink {
     constructor(value, className = 'page-link-item'){
-        this.element = document.createElement('li');
-        this.element.classList.add(className);
-        this.element.textContent = value;
-        this.element.instance = this;
+        const element = document.createElement('li');
+        element.classList.add(className);
+        element.textContent = value;
+
+        return element;
     }
 }
 
 export class CornerPageLink extends PageLink {
     constructor(value){
-        super(value, 'corner-page-link-item');
-    }
+        const classNames = {
+            cornerPageLink: 'corner-page-link-item',
+            disabledCornerPageLink:  'corner-page-link-item--disabled'
+        };
 
-    enable(){
-        this.element.classList.remove('corner-page-link-item--disabled');
-    }
+        super(value, classNames.cornerPageLink);
 
-    disable(){
-        this.element.classList.add('corner-page-link-item--disabled');
+        this.enable = function(){
+            this.classList.remove(classNames.disabledCornerPageLink);
+        };
+
+        this.disable = function(){
+            this.classList.add(classNames.disabledCornerPageLink);
+        };
     }
 }

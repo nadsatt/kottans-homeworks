@@ -1,83 +1,106 @@
 import svgs from './svgs.js';
 
 class Filter {
-    constructor(optionsHTML, category, property, userService){
-        this.optionsHTML = optionsHTML;
-        this.category = category;
-        this.property = property;
-        this.name = `${property}-${category}`;
-        this.userService = userService;
-
-        this.defineElement();
-        this.linkElementWithInstance();
-
-        this.activatedState = 'none';
-        this.activatedOptionElement = this.element.querySelector(`[data-state="none"]`);
+    constructor(optionsHTML, property, category, userService){
+        this.defineElement(optionsHTML);
+        this.defineElementProperties(property, category, userService);
+        this.defineElementMethods();
     }
 
-    defineElement(){
-        const innerHTML =
-            `<div class="filter-item__options">
-                ${this.optionsHTML}
-                <span class="filter-item__option" data-state="none">${svgs.none}</span>
-             </div>`;
-
+    defineElement(optionsHTML){
         this.element = document.createElement('li');
-        this.element.innerHTML = innerHTML;
-
-        this.element.classList.add('filter-item', `${this.category}-filter-item`);
-        this.element.setAttribute('data-current-state', 'none');
-        this.element.setAttribute('data-filter-name', this.name);
+        this.element.innerHTML =
+            `<div class="filter-item__options">
+                ${optionsHTML}
+                <span class="filter-item__option" data-state="none">${svgs.none}</span>
+            </div>`;
     }
 
-    linkElementWithInstance(){
-        this.element.instance = this;
+    defineElementProperties(property, category, userService){
+        this.element.property = property;
+        this.element.category = category;
+        this.element.name = `${property}-${category}`;
+        this.element.userService = userService;
+
+        this.element.defaultState = 'none';
+        this.element.defaultOption = this.element.querySelector(`[data-state="${this.element.defaultState}"]`);
+
+        this.element.settedState = this.element.defaultState;
+        this.element.activatedOption = this.element.defaultOption;
+
+        this.element.classNames = {
+            filter: ['filter-item', `${this.element.category}-filter-item`],
+            openedFilter: 'filter-item--opened',
+            activatedOption: 'filter-item__option--activated',
+            activatedIcon: 'icon-item--activated'
+        };
+        this.element.classList.add(...this.element.classNames.filter);
     }
 
-    filterUsersAccordingToState(){
-        if(this.activatedState !== 'none') this[this.activatedState]();
+    defineElementMethods(){
+        // copy methods to avoid methods duplication in different instances
+        this.element.open = this.open;
+        this.element.close = this.close;
+        this.element.setState = this.setState;
+        this.element.applyAccordingToState = this.applyAccordingToState;
+        this.element.deactivateOptionAndIcon = this.deactivateOptionAndIcon;
+        this.element.activateOptionAndIcon = this.activateOptionAndIcon;
+        this.element.updateOptionAndState = this.updateOptionAndState;
     }
 
-    changeState(activatedOptionElement){
+    open(){
+        this.classList.add(this.classNames.openedFilter);
+    }
+
+    close(){
+        this.classList.remove(this.classNames.openedFilter);
+    }
+
+    setState(option){
         this.deactivateOptionAndIcon();
-        this.updateOptionAndState(activatedOptionElement);
-        if(this.activatedState !== 'none') this.activateOptionAndIcon();
+        this.updateOptionAndState(option);
+        if(this.settedState !== this.defaultState) this.activateOptionAndIcon();
+    }
+
+    applyAccordingToState(){
+        if(this.settedState !== this.defaultState){
+            this[this.settedState]();
+        }
     }
 
     deactivateOptionAndIcon(){
-        this.activatedOptionElement.classList.remove('filter-item__option--activated');
-        this.iconElement.classList.remove('icon-item--activated');
+        this.activatedOption.classList.remove(this.classNames.activatedOption);
+        this.icon.classList.remove(this.classNames.activatedIcon);
     }
 
     activateOptionAndIcon(){
-        this.activatedOptionElement.classList.add('filter-item__option--activated');
-        this.iconElement.classList.add('icon-item--activated');
+        this.activatedOption.classList.add(this.classNames.activatedOption);
+        this.icon.classList.add(this.classNames.activatedIcon);
     }
 
-    updateOptionAndState(activatedOptionElement){
-        this.activatedOptionElement = activatedOptionElement;
-
-        this.activatedState = activatedOptionElement.dataset.state;
-        this.element.setAttribute('data-current-state', this.activatedState);
-    }
-
-    openElement(){
-        this.element.classList.add('filter-item--opened');
-    }
-
-    closeElement(){
-        this.element.classList.remove('filter-item--opened');
+    updateOptionAndState(option){
+        this.activatedOption = option;
+        this.settedState = option.dataset.state;
     }
 }
 
 class SearchFilter extends Filter {
     constructor(...args){
         const optionsHTML = `<input class="filter-item__option" type="text" data-state="search">`;
-        super(optionsHTML, 'search', ...args);
+        super(optionsHTML, ...args);
 
-        this.input = this.element.querySelector('input');
-        this.span = this.element.querySelector('span');
-        this.span.addEventListener('click', () => this.input.value = '');
+        this.element.input = this.element.querySelector('input');
+
+        this.element.setState = this.setState;
+        this.element.search = this.search;
+    }
+
+    setState(option){
+        this.deactivateOptionAndIcon();
+        this.updateOptionAndState(option);
+
+        if(this.settedState === this.defaultState) this.input.value = ''
+        else if(this.input.value) this.activateOptionAndIcon();
     }
 
     search(){
@@ -87,34 +110,29 @@ class SearchFilter extends Filter {
             user[this.property].toLowerCase().includes(value)
         );
     }
-
-    changeState(activatedOptionElement){
-        this.deactivateOptionAndIcon();
-        this.updateOptionAndState(activatedOptionElement);
-        if(this.activatedState !== 'none' && this.input.value) this.activateOptionAndIcon();
-    }
 }
 
 class ToggleFilter extends Filter {
     constructor(firstState, secondState, ...args){
         const optionsHTML =
-            `<span class="filter-item__option" data-state="state1">${svgs[firstState]}</span>
-             <span class="filter-item__option" data-state="state2">${svgs[secondState]}</span>`;
-        const category = 'search';
+            `<span class="filter-item__option" data-state="${firstState}">${svgs[firstState]}</span>
+             <span class="filter-item__option" data-state="${secondState}">${svgs[secondState]}</span>`;
+        super(optionsHTML, ...args);
 
-        super(optionsHTML, category, ...args);
+        this.element.firstState = firstState;
+        this.element.secondState = secondState;
 
-        this.firstState = firstState;
-        this.secondState = secondState;
+        this.element[firstState] = this.firstState;
+        this.element[secondState] = this.secondState;
     }
 
-    state1(){
+    firstState(){
         this.userService.users = this.userService.users.filter(user =>
             user[this.property] === this.firstState
         );
     }
 
-    state2(){
+    secondState(){
         this.userService.users = this.userService.users.filter(user =>
             user[this.property] === this.secondState
         );
@@ -122,46 +140,55 @@ class ToggleFilter extends Filter {
 }
 
 class SortFilter extends Filter {
-    constructor(ascComparator, descComparator, ascSvg, descSvg, ...args){
+    constructor(ascSvg, descSvg, ...args){
         const optionsHTML =
             `<span class="filter-item__option" data-state="asc">${ascSvg}</span>
              <span class="filter-item__option" data-state="desc">${descSvg}</span>`;
-        const category = 'sort';
+        super(optionsHTML, ...args);
 
-        super(optionsHTML, category, ...args);
-
-        this.ascComparator = ascComparator;
-        this.descComparator = descComparator;
+        this.element.resetState = this.resetState;
+        this.element.asc = this.asc;
+        this.element.desc = this.desc;
     }
 
     resetState(){
-        this.changeState(this.element.querySelector(`.filter-item__option[data-state="none"]`));
+        this.setState(this.defaultOption);
     }
 
     asc(){
-        this.userService.users.sort(this.ascComparator);
-    }
+        this.userService.users.sort(this.ascComparator.bind(this));
+    };
 
     desc(){
-        this.userService.users.sort(this.descComparator);
+        this.userService.users.sort(this.descComparator.bind(this));
     }
 }
 
 class StringSortFilter extends SortFilter {
     constructor(...args){
-        const ascComparator = (a, b) => a[this.property].localeCompare(b[this.property]),
-              descComparator = (a, b) => b[this.property].localeCompare(a[this.property]);
+        super(svgs.ascString, svgs.descString, ...args);
 
-        super(ascComparator, descComparator, svgs.ascString, svgs.descString, ...args);
+        this.element.ascComparator = function(a, b){
+            return a[this.property].localeCompare(b[this.property]);
+        };
+
+        this.element.descComparator = function(a, b){
+            return b[this.property].localeCompare(a[this.property]);
+        };
     }
 }
 
 class NumberSortFilter extends SortFilter {
     constructor(...args){
-        const ascComparator = (a, b) => a[this.property] - b[this.property],
-              descComparator = (a, b) => b[this.property] - a[this.property];
+        super(svgs.ascNumber, svgs.descNumber, ...args);
 
-        super(ascComparator, descComparator, svgs.ascNumber, svgs.descNumber, ...args);
+        this.element.ascComparator = function(a, b){
+            return a[this.property] - b[this.property];
+        };
+
+        this.element.descComparator = function(a, b){
+            return b[this.property] - a[this.property];
+        };
     }
 }
 
