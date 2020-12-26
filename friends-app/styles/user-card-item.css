@@ -75,10 +75,13 @@
 }
 
 .user-card__back-header {
-    height: 60px;
+    height: 50px;
     top: 0;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    font-size: 14px;
+    padding-top: 5px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: .2em;
     background-size: contain;
@@ -126,10 +129,6 @@
     text-shadow: 0px 0px 1px;
 }
 
-.user-card__back-prop {
-    margin: 5px 0px;
-}
-
 .user-card__back-prop-name {
     font-weight: 700;
     font-style: italic;
@@ -152,9 +151,12 @@
     letter-spacing: .07em;
 }
 
-.user-card__front-email,
-.user-card__back-prop-value {
+.user-card__front-email {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.user-card__back-prop-value {
+    word-break: break-all;
 }
