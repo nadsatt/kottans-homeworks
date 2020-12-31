@@ -2,73 +2,78 @@ import { Icon } from './icon-item.js';
 
 export class IconList{
     constructor(filters, filterList, category){
-        this.filters = filters;
-        this.filterList = filterList;
-        this.category = category;
-        this.openedFilter = null;
-        this.filterListClosingTime = 300;
+        this.defineElement(filters, category);
+        this.defineElementProperties(filters, filterList, category);
+        this.defineElementMethods();
 
-        this.defineIcons();
-        this.defineElement();
-        this.defineElementClickHandler();
+        return this.element;
     }
 
-    defineIcons(){
-        this.icons = this.filters.map(filter => {
+    defineElement(filters, category){
+        this.element = document.createElement('ul');
+        this.element.classNames = {
+            iconList: ['icon-list', `${category}-icon-list`],
+            categoryIcon: `${category}-icon-item`
+        };
+        this.element.classList.add(...this.element.classNames.iconList);
+
+        this.element.icons = filters.map(filter => {
             const icon = new Icon(filter);
-            filter.iconElement = icon.element;
+            icon.filter = filter;
+            filter.icon = icon;
             return icon;
         });
+
+        this.element.append(...this.element.icons);
     }
 
-    defineElement(){
-        const iconElements = this.icons.map(icon => icon.element);
-        this.element = document.createElement('ul');
-        this.element.classList.add('icon-list', `${this.category}-icon-list`);
-        this.element.append(...iconElements);
+    defineElementProperties(filters, filterList, category){
+        this.element.filters = filters;
+        this.element.filterList = filterList;
+        this.element.category = category;
+        this.element.openedFilter = null;
+        this.element.filterListClosingTime = 300;
     }
 
-    defineElementClickHandler(){
-        this.element.addEventListener('click', this.handleElementClick.bind(this));
-    }
+    defineElementMethods(){
+        this.element.addEventListener('click', function({target}){
+            if(target.classList.contains(this.classNames.categoryIcon)){
+                this.selectIcon(target);
+                this.openFilter(target.filter);
+            }
+        });
 
-    handleElementClick({target}){
-        if(target.classList.contains(`${this.category}-icon-item`)){
-            const iconElement = target;
-            const filter = iconElement.instance.filter;
+        this.element.selectIcon = function(icon){
+            const iconSelected = icon.selected;
 
-            this.selectIcon(iconElement);
-            this.openFilter(filter);
+            this.icons.forEach(icon => icon.unselect());
+
+            if(iconSelected) icon.unselect();
+            else icon.select();
         }
-    }
 
-    selectIcon(iconElement){
-        const iconIsSelected = iconElement.instance.isSelected;
+        this.element.openFilter = function(filter){
+            if(!this.openedFilter){
+                filter.open();
+                this.filterList.open();
 
-        this.icons.forEach(icon => icon.unselect());
-        iconIsSelected ? iconElement.instance.unselect() : iconElement.instance.select();
-    }
+                this.openedFilter = filter;
+            }
+            else if(this.openedFilter === filter){
+                this.filterList.close();
 
-    openFilter(filter){
-        if(!this.openedFilter){
-            filter.openElement();
-            this.filterList.openElement();
+                setTimeout(() => {
+                    filter.close();
+                }, this.filterListClosingTime);
 
-            this.openedFilter = filter;
-        }
-        else if(this.openedFilter === filter){
-            this.filterList.closeElement();
-            setTimeout(() => {
-                filter.closeElement();
-            }, this.filterListClosingTime);
+                this.openedFilter = null;
+            }
+            else {
+                this.openedFilter.close();
+                filter.open();
 
-            this.openedFilter = null;
-        }
-        else {
-            this.openedFilter.closeElement();
-            filter.openElement();
-
-            this.openedFilter = filter;
+                this.openedFilter = filter;
+            }
         }
     }
 }

@@ -5,7 +5,9 @@
 
 @import './styles/reset.css';
 @import './styles/responsive.css';
-@import './styles/loader.css';
+
+@import './styles/loading-page.css';
+@import './styles/loading-roller.css';
 
 @import './styles/header.css';
 
@@ -41,25 +43,6 @@ body {
     background-color: var(--gray-color);
 }
 
-.init-page {
-    position:fixed;
-    left:0;
-    right:0;
-    top:0;
-    bottom:0;
-    background-color: #120F12;
-    z-index:2;
-}
-
-.init-page__heading {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -50%);
-    font-family: 'Courier New', Courier, monospace;
-    text-align: center;
-}
-
 .header-wrapper {
     width: 100%;
     height: 60px;
@@ -83,31 +66,31 @@ body {
 }
 
 .user-card-list-wrapper {
-    min-height: calc(100vh - 15px - 60px - 15px - 218px - 10px - 40px - 10px);
+    min-height: calc(100vh - 368px);
     margin-bottom: 10px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    background-image: url('images/user-card-list-bgs/bg1.jpg');
+    background-image: url('images/user-card-list-backgrounds/background1.jpg');
     animation: bgSlider 30s ease-in-out infinite;
 }
 
 @keyframes bgSlider {
     0%,100% {
-        background-image: url('images/user-card-list-bgs/bg1.jpg');
+        background-image: url('images/user-card-list-backgrounds/background1.jpg');
     }
     20% {
-        background-image: url('images/user-card-list-bgs/bg2.jpg');
+        background-image: url('images/user-card-list-backgrounds/background2.jpg');
     }
     40% {
-        background-image: url('images/user-card-list-bgs/bg3.png');
+        background-image: url('images/user-card-list-backgrounds/background3.png');
     }
     60% {
-        background-image: url('images/user-card-list-bgs/bg4.jpg');
+        background-image: url('images/user-card-list-backgrounds/background4.jpg');
     }
     80% {
-        background-image: url('images/user-card-list-bgs/bg5.png');
+        background-image: url('images/user-card-list-backgrounds/background5.png');
     }
 }
