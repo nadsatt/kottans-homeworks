@@ -1,23 +1,19 @@
 import { PageLink, CornerPageLink } from './page-link-items.js';
 
 export class PageLinkList {
-    constructor(userService, userCardList){
-        this.defineElement();
-        this.defineElementProperties(userService, userCardList);
+    constructor(...args){
+        this.defineElement(...args);
         this.defineElementMethods();
 
         return this.element;
     }
 
-    defineElement(){
+    defineElement(userService, userCardList){
         this.element = document.createElement('ul');
         this.element.classList.add('page-link-list');
-    }
 
-    defineElementProperties(userService, userCardList){
         this.element.userService = userService;
         this.element.userCardList = userCardList;
-
         this.element.usersPerPage = 10;
         this.element.maxPageLinksNumber = 5;
         this.element.fragment = new DocumentFragment();
@@ -26,13 +22,12 @@ export class PageLinkList {
             middlePageLink: 'page-link-item',
             currentPageLink: 'page-link-item--current',
         };
-
         this.element.leftPageLinks = ['First', 'Prev'].map(value => new CornerPageLink(value));
         this.element.rightPageLinks = ['Next', 'Last'].map(value => new CornerPageLink(value));
     }
 
     defineElementMethods(){
-        this.element.onclick = function({target, target:{textContent: value}}){
+        this.element.addEventListener('click', function({target, target:{textContent: value}}){
             if(this.isMiddlePageLinkClicked(target)){
                 let currentPageNumber = +value;
                 this.performPagination(currentPageNumber);
@@ -47,7 +42,7 @@ export class PageLinkList {
 
                 this.performPagination(currentPageNumber);
             }
-        };
+        });
 
         this.element.isMiddlePageLinkClicked = function(target){
             return target.classList.contains(this.classNames.middlePageLink);

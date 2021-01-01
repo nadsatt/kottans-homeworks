@@ -1,38 +1,33 @@
 import { Icon } from './icon-item.js';
 
 export class IconList{
-    constructor(filters, filterList, category){
-        this.defineElement(filters, category);
-        this.defineElementProperties(filters, filterList, category);
+    constructor(...args){
+        this.defineElement(...args);
         this.defineElementMethods();
 
         return this.element;
     }
 
-    defineElement(filters, category){
+    defineElement(filterList, category){
         this.element = document.createElement('ul');
-        this.element.classNames = {
-            iconList: ['icon-list', `${category}-icon-list`],
-            categoryIcon: `${category}-icon-item`
-        };
-        this.element.classList.add(...this.element.classNames.iconList);
+        this.element.classList.add('icon-list', `${category}-icon-list`);
 
-        this.element.icons = filters.map(filter => {
+        this.element.icons = filterList.filters.map(filter => {
             const icon = new Icon(filter);
             icon.filter = filter;
             filter.icon = icon;
             return icon;
         });
-
         this.element.append(...this.element.icons);
-    }
 
-    defineElementProperties(filters, filterList, category){
-        this.element.filters = filters;
         this.element.filterList = filterList;
+        this.element.filters = filterList.filters;
         this.element.category = category;
         this.element.openedFilter = null;
         this.element.filterListClosingTime = 300;
+        this.element.classNames = {
+            categoryIcon: `${category}-icon-item`
+        };
     }
 
     defineElementMethods(){
