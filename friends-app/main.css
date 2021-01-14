@@ -7,22 +7,10 @@
 @import './styles/responsive.css';
 
 @import './styles/loading-page.css';
-@import './styles/loading-roller.css';
-
 @import './styles/header.css';
-
-@import './styles/user-card-list.css';
-@import './styles/user-card-item.css';
-
-@import './styles/filter-group.css';
-@import './styles/filter-list.css';
-@import './styles/filter-item.css';
-
-@import './styles/icon-list.css';
-@import './styles/icon-item.css';
-
-@import './styles/page-link-list.css';
-@import './styles/page-link-item.css';
+@import './styles/state-keepers.css';
+@import './styles/pagination.css';
+@import './styles/user-cards.css';
 
 :root {
     --gray-color: rgb(20,21,23);
@@ -49,7 +37,7 @@ body {
     margin-bottom: 15px;
 }
 
-.filter-group-wrapper {
+.state-keeper-group-wrapper {
     width: 100%;
     margin-bottom: 10px;
 }
@@ -60,7 +48,7 @@ body {
     flex-flow: column nowrap;
 }
 
-.page-link-list-wrapper {
+.pagination-wrapper {
     margin-bottom: 10px;
     order: -1;
 }
@@ -73,24 +61,5 @@ body {
     background-position: center center;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    background-image: url('images/user-card-list-backgrounds/background1.jpg');
-    animation: bgSlider 30s ease-in-out infinite;
-}
-
-@keyframes bgSlider {
-    0%,100% {
-        background-image: url('images/user-card-list-backgrounds/background1.jpg');
-    }
-    20% {
-        background-image: url('images/user-card-list-backgrounds/background2.jpg');
-    }
-    40% {
-        background-image: url('images/user-card-list-backgrounds/background3.png');
-    }
-    60% {
-        background-image: url('images/user-card-list-backgrounds/background4.jpg');
-    }
-    80% {
-        background-image: url('images/user-card-list-backgrounds/background5.png');
-    }
+    background-image: url('images/user-card-list-images/background.png');
 }
