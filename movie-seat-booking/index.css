@@ -38,9 +38,9 @@ body:not(:-moz-handler-blocked) fieldset {
   --light-black: #0f0f0f;
   --dark-gray: #171717bf;
   --light-gray: #a09d9d;
+  --transparent-gray: #040404af;
   --dark-red: #470c15;
   --red: #8d2333;
-  --transparent-red: #5d193082;
   --transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
   --text-shadow: #a9a9a9 0px -1px 0.25em, #a9a9a9 0px 0px 0.125em;
 
@@ -81,7 +81,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  margin: var(--main-margin);
+  margin: 0 var(--main-margin);
   border: var(--main-border-width) solid;
 }
 
@@ -148,15 +148,149 @@ body {
   margin-top: 5px;
   font-size: .65rem;
 }
-.movie-label__text {
+
+/* -------------------- TICKET SECTION STYLES -------------------- */
+.ticket-section {
+  display: none;
+}
+.ticket-section--visible {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  display: block;
+  background-color: var(--transparent-gray);
+}
+.ticket {
+  width: 80vw;
+  max-width: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: var(--black) 0px 0px 38px 12px, var(--black) 0px 0px 38px 12px;
+}
+.ticket__header {
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
   color: var(--white);
+  background-color: var(--red);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: 3px dashed var(--black);
+}
+.ticket__header::before,
+.ticket__header::after {
+  content: '';
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  position: absolute;
+  bottom: -20px;
+  background: var(--black);
+  border-radius: 50px;
+}
+.ticket__header::before {
+  left: -20px;
+}
+.ticket__header::after {
+  right: -20px;
+}
+.ticket__movie-name {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  text-shadow: 1px 3px 1px var(--black);
+}
+.ticket__hall-info {
+  display: flex;
+  flex-direction: column;
+}
+.ticket__hall-heading {
+  font-size: .6rem;
+  text-transform: uppercase;
+}
+.ticket__hall-field {
+  font-size: 1rem;
+  text-align: center;
+}
+.ticket__body {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.ticket__body > div {
+  padding: 10px;
+}
+.ticket__day-info,
+.ticket__time-info {
+  width: 50%;
+}
+.ticket__seat-info {
+  width: 100%;
+}
+.ticket__footer {
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ticket__code-icon {
+  height: 100%;
+  fill: var(--dark-gray);
+}
+.ticket__code-info p span{
+  color: var(--red);
+  font-weight: bold;
+}
+.ticket__heading {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 7px;
+}
+.ticket__field {
+  color: var(--dark-gray);
+}
+.ticket__header,
+.ticket__body,
+.ticket__footer {
+  padding: 20px;
+}
+.ticket__body {
+  border-left: 0.1px dashed;
+  border-right: 0.1px dashed;
+}
+.ticket__footer {
+  border-left: 0.1px dashed;
+  border-right: 0.1px dashed;
+  border-bottom: 0.1px dashed;
+}
+.ticket__hall-info {
+  position: relative;
+  padding: 2px 10px;
+  font-weight: bold;
+  color: var(--black);
+  background-color: var(--white);
+  border: 1px solid var(--black);
+}
+.ticket__hall-info::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: #8d2333;
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  border-radius: 50%;
+  border-top: 1px solid var(--black);
+  transform: rotate(-45deg);
 }
 
 /* -------------------- FORM STYLES -------------------- */
-.control__option,
-.submit-button {
-  cursor: pointer;
-}
 .movie-form {
   display: flex;
   flex-direction: column;
@@ -188,10 +322,6 @@ body {
 }
 .day-control__direction-option-item:nth-of-type(2){
   order: 1;
-}
-.control__radio {
-  height: 100%;
-  display: block;
 }
 .control__box {
   border: 1px solid transparent;
@@ -266,13 +396,9 @@ body {
   background-color: var(--light-black);
   box-shadow: inset 0 0 15px rgba(255, 255, 255, 0);
 }
-.submit-button:hover,
-.submit-button:focus {
-  text-shadow: 1px 1px 2px #aaaaaa;
-  outline-color: rgba(255, 255, 255, 0);
-  outline-offset: 15px;
-  background-color: var(--black);
-  box-shadow: inset 0 0 15px rgba(255, 255, 255, .5), 0 0 15px rgba(255, 255, 255, .2);
+.control__option,
+.submit-button {
+  cursor: pointer;
 }
 
 /* -------------------- FORM INTERACTION STYLES -------------------- */
@@ -320,6 +446,14 @@ body {
 .seat-control__input:checked + .control__box {
   background-image: url(seat-checked.svg);
 }
+.submit-button:hover,
+.submit-button:focus {
+  text-shadow: 1px 1px 2px #aaaaaa;
+  outline-color: rgba(255, 255, 255, 0);
+  outline-offset: 15px;
+  background-color: var(--black);
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, .5), 0 0 15px rgba(255, 255, 255, .2);
+}
 
 /* -------------------- ADAPTIVE STYLES -------------------- */
 @media screen and (min-width: 450px){
@@ -328,14 +462,12 @@ body {
     font-size: 18px;
   }
 }
-
 @media screen and (min-width: 550px){
   :root {
     --main-width: 60vw;
     font-size: 19px;
   }
 }
-
 @media screen and (min-width: 730px){
   :root {
     --main-width: 100vw;
@@ -349,26 +481,22 @@ body {
     width: 50%;
   }
 }
-
 @media screen and (min-width: 900px){
   :root {
     --main-width: 90vw;
   }
 }
-
 @media screen and (min-width: 1000px){
   :root {
     --main-width: 75vw;
   }
 }
-
 @media screen and (min-width: 1200px){
   :root {
     --main-width: 65vw;
     font-size: 20px;
   }
 }
-
 @media screen and (min-width: 1300px){
   :root {
     --main-width: 850px;

@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cinema</title>
-  <link rel="stylesheet" href="./index.css">
+  <link rel="stylesheet" href="index.css">
+  <script src="index.js" defer></script>
 </head>
 <body>
   <main class="main">
@@ -39,7 +40,7 @@
         </li>
       </ul>
     </section>
-    <form class="movie-form" method="GET" action="index.html">
+    <form class="movie-form">
       <!-- day control -->
       <fieldset class="control day-control">
         <legend class="control__name">Day</legend>
@@ -108,18 +109,18 @@
         <ol class="control__option-list">
           <li class="control__option-item time-control__option-item">
             <label class="control__option">
-              <input class="control__input time-control__input" type="radio" name="time" value="16:30" checked>
+              <input class="control__input time-control__input" data-hall="5" type="radio" name="time" value="16:30" checked>
               <div class="control__box time-control__box">
-                <span class="control__info">Theater 5</span>
+                <span class="control__info">Hall 5</span>
                 <span class="control__value">16:30</span>
               </div>
             </label>
           </li>
           <li class="control__option-item time-control__option-item">
             <label class="control__option">
-              <input class="control__input time-control__input" type="radio" name="time" value="18:30">
+              <input class="control__input time-control__input" data-hall="6" type="radio" name="time" value="18:30">
               <div class="control__box time-control__box">
-                <span class="control__info">Theater 6</span>
+                <span class="control__info">Hall 6</span>
                 <span class="control__info">RealD 3D</span>
                 <span class="control__value">18:30</span>
               </div>
@@ -127,18 +128,18 @@
           </li>
           <li class="control__option-item time-control__option-item">
             <label class="control__option">
-              <input class="control__input time-control__input" type="radio" name="time" value="20:30">
+              <input class="control__input time-control__input" data-hall="4" type="radio" name="time" value="20:30">
               <div class="control__box time-control__box">
-                <span class="control__info">Theater 5</span>
+                <span class="control__info">Hall 4</span>
                 <span class="control__value">20:30</span>
               </div>
             </label>
           </li>
           <li class="control__option-item time-control__option-item">
             <label class="control__option">
-              <input class="control__input time-control__input" type="radio" name="time" value="22:30">
+              <input class="control__input time-control__input" data-hall="7" type="radio" name="time" value="22:30">
               <div class="control__box time-control__box">
-                <span class="control__info">Theater 6</span>
+                <span class="control__info">Hall 7</span>
                 <span class="control__info">RealD 3D</span>
                 <span class="control__value">22:30</span>
               </div>
@@ -164,7 +165,7 @@
           </li>
           <li class="seat-control__option-item">
             <label class="seat-control__option">
-              <input class="control__input seat-control__input" type="checkbox" name="seat" value=3">
+              <input class="control__input seat-control__input" type="checkbox" name="seat" value="3">
               <div class="control__box seat-control__box"></div>
             </label>
           </li>
@@ -194,7 +195,7 @@
           </li>
           <li class="seat-control__option-item">
             <label class="seat-control__option">
-              <input class="control__input seat-control__input" type="checkbox" name="seat" value=8">
+              <input class="control__input seat-control__input" type="checkbox" name="seat" value="8">
               <div class="control__box seat-control__box"></div>
             </label>
           </li>
@@ -236,7 +237,7 @@
           </li>
           <li class="seat-control__option-item">
             <label class="seat-control__option">
-              <input class="control__input seat-control__input" type="checkbox" name="seat" value=15">
+              <input class="control__input seat-control__input" type="checkbox" name="seat" value="15">
               <div class="control__box seat-control__box"></div>
             </label>
           </li>
@@ -278,7 +279,7 @@
           </li>
           <li class="seat-control__option-item">
             <label class="seat-control__option">
-              <input class="control__input seat-control__input" type="checkbox" name="seat" value=22" disabled>
+              <input class="control__input seat-control__input" type="checkbox" name="seat" value="22" disabled>
               <div class="control__box seat-control__box"></div>
             </label>
           </li>
@@ -320,7 +321,7 @@
           </li>
           <li class="seat-control__option-item">
             <label class="seat-control__option">
-              <input class="control__input seat-control__input" type="checkbox" name="seat" value=29" disabled>
+              <input class="control__input seat-control__input" type="checkbox" name="seat" value="29" disabled>
               <div class="control__box seat-control__box"></div>
             </label>
           </li>
@@ -450,5 +451,37 @@
       <button class="submit-button" type="submit">Submit</button>
     </form>
   </main>
+  <section class="ticket-section">
+    <article class="ticket">
+      <header class="ticket__header">
+        <span class="ticket__movie-name">Civil war</span>
+        <div class="ticket__hall-info">
+          <h3 class="ticket__hall-heading">Hall</h3>
+          <span class="ticket__field ticket__hall-field" id="hall"></span>
+        </div>
+      </header>
+      <div class="ticket__body">
+        <div class="ticket__day-info">
+          <h3 class="ticket__heading">Day</h3>
+          <span class="ticket__field" id="day"></span>
+        </div>
+        <div class="ticket__time-info">
+          <h3 class="ticket__heading">Time</h3>
+          <span class="ticket__field" id="time"></span>
+        </div>
+        <div class="ticket__seat-info">
+          <h3 class="ticket__heading">Seats</h3>
+          <span class="ticket__field" id="seats"></span>
+        </div>
+      </div>
+      <footer class="ticket__footer">
+        <div class="ticket__code-info">
+          <span>Scan code</span>
+          <p>to get <span>e-ticket</span></p>
+        </div>
+        <svg class="ticket__code-icon" enable-background="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><g><path d="m8.88 164.1h146.34c4.896 0 8.88-3.983 8.88-8.88v-146.34c0-4.896-3.983-8.88-8.88-8.88h-146.34c-4.897 0-8.88 3.983-8.88 8.88v32.853c0 4.142 3.357 7.5 7.5 7.5s7.5-3.358 7.5-7.5v-26.733h134.1v134.1h-134.1v-72.367c0-4.142-3.357-7.5-7.5-7.5s-7.5 3.358-7.5 7.5v78.487c0 4.897 3.983 8.88 8.88 8.88z"/><path d="m130.37 139.25c4.896 0 8.88-3.983 8.88-8.88v-96.64c0-4.896-3.983-8.88-8.88-8.88h-96.641c-4.896 0-8.88 3.983-8.88 8.88v96.64c0 4.896 3.983 8.88 8.88 8.88zm-90.52-99.4h84.4v84.4h-84.4z"/><path d="m503.12 0h-146.34c-4.896 0-8.88 3.983-8.88 8.88v146.34c0 4.896 3.983 8.88 8.88 8.88h146.34c4.896 0 8.88-3.983 8.88-8.88v-146.34c0-4.897-3.983-8.88-8.88-8.88zm-6.12 149.1h-134.1v-134.1h134.1z"/><path d="m381.63 139.25h96.64c4.896 0 8.881-3.983 8.881-8.88v-96.64c0-4.896-3.984-8.88-8.881-8.88h-96.64c-4.896 0-8.88 3.983-8.88 8.88v96.64c0 4.897 3.983 8.88 8.88 8.88zm6.12-99.4h84.4v84.4h-84.4z"/><path d="m231.15 64.7h24.85c4.143 0 7.5-3.358 7.5-7.5v-24.85c0-4.142-3.357-7.5-7.5-7.5h-24.85c-4.143 0-7.5 3.358-7.5 7.5v24.85c0 4.142 3.358 7.5 7.5 7.5zm7.5-24.85h9.85v9.85h-9.85z"/><path d="m105.521 49.7h-46.941c-4.896 0-8.88 3.984-8.88 8.88v46.94c0 4.896 3.983 8.88 8.88 8.88h46.94c4.896 0 8.88-3.983 8.88-8.88v-46.94c0-4.896-3.983-8.88-8.879-8.88zm-6.121 49.7h-34.7v-34.7h34.7z"/><path d="m453.42 49.7h-46.94c-4.896 0-8.881 3.984-8.881 8.88v46.94c0 4.896 3.984 8.88 8.881 8.88h46.939c4.896 0 8.88-3.983 8.88-8.88v-46.94c.001-4.896-3.983-8.88-8.879-8.88zm-6.12 49.7h-34.7v-34.7h34.7z"/><path d="m182.83 64.7h15.97v40.82c0 4.896 3.983 8.88 8.88 8.88h22.091c4.896 0 8.88-3.983 8.88-8.88v-15.97h9.85v15.97c0 4.896 3.983 8.88 8.88 8.88h40.82v9.85h-15.971c-4.896 0-8.88 3.984-8.88 8.88v22.09c0 4.896 3.983 8.88 8.88 8.88h22.091c4.896 0 8.88-3.983 8.88-8.88v-15.97h15.97c4.896 0 8.88-3.983 8.88-8.88v-46.94c0-4.896-3.983-8.88-8.88-8.88h-40.82v-9.85h15.971c4.896 0 8.88-3.983 8.88-8.88v-46.94c0-4.896-3.983-8.88-8.88-8.88h-121.492c-4.896 0-8.88 3.983-8.88 8.88v46.94c0 4.896 3.984 8.88 8.88 8.88zm115.37 84.4h-9.851v-9.85h9.851zm-109.25-134.1h109.25v34.7h-15.97c-4.896 0-8.881 3.984-8.881 8.88v22.09c0 4.896 3.984 8.88 8.881 8.88h40.819v34.7h-9.85v-15.97c0-4.896-3.983-8.88-8.88-8.88h-40.819v-15.97c0-4.896-3.983-8.88-8.88-8.88h-22.09c-4.896 0-8.88 3.984-8.88 8.88v15.97h-9.85v-40.82c0-4.896-3.983-8.88-8.88-8.88h-15.97z"/><path d="m232.53 124.25c-4.896 0-8.88 3.984-8.88 8.88v22.09c0 4.896 3.983 8.88 8.88 8.88h22.09c4.896 0 8.88-3.983 8.88-8.88v-22.09c0-4.896-3.983-8.88-8.88-8.88zm15.97 24.85h-9.85v-9.85h9.85z"/><path d="m503.12 173.95h-121.49c-4.896 0-8.88 3.984-8.88 8.88v15.97h-15.97c-4.896 0-8.88 3.984-8.88 8.88v22.09c0 4.896 3.983 8.88 8.88 8.88h15.97v15.97c0 4.896 3.983 8.88 8.88 8.88h65.67v9.85h-40.82c-4.896 0-8.881 3.983-8.881 8.88v22.09c0 4.896 3.984 8.88 8.881 8.88h46.939c4.896 0 8.88-3.983 8.88-8.88v-15.97h40.82c4.896 0 8.88-3.983 8.88-8.88v-22.09c0-4.896-3.983-8.88-8.88-8.88h-15.97v-34.7h15.97c4.896 0 8.88-3.983 8.88-8.88v-22.09c.001-4.896-3.982-8.88-8.879-8.88zm-55.82 124.25h-34.7v-9.85h34.7zm49.7-99.4h-15.97c-4.896 0-8.88 3.984-8.88 8.88v46.94c0 4.896 3.983 8.88 8.88 8.88h15.97v9.85h-34.7v-15.97c0-4.896-3.983-8.88-8.88-8.88h-65.67v-15.97c0-4.896-3.983-8.88-8.88-8.88h-15.97v-9.85h15.97c4.896 0 8.88-3.983 8.88-8.88v-15.97h109.25z"/><path d="m431.33 238.65h22.09c4.896 0 8.88-3.983 8.88-8.88v-22.09c0-4.896-3.983-8.88-8.88-8.88h-22.09c-4.896 0-8.88 3.984-8.88 8.88v22.09c0 4.897 3.984 8.88 8.88 8.88zm6.12-24.85h9.85v9.85h-9.85z"/><path d="m8.88 338.05h46.94c4.896 0 8.88-3.983 8.88-8.88v-15.97h15.97c4.896 0 8.88-3.983 8.88-8.88v-22.09c0-4.896-3.983-8.88-8.88-8.88h-22.09c-4.896 0-8.88 3.983-8.88 8.88v15.97h-9.85v-15.97c0-4.896-3.983-8.88-8.88-8.88h-22.09c-4.896 0-8.88 3.983-8.88 8.88v46.94c0 4.896 3.983 8.88 8.88 8.88zm55.82-49.7h9.85v9.85h-9.85zm-49.7 0h9.85v15.97c0 4.896 3.983 8.88 8.88 8.88h15.97v9.85h-34.7z"/><path d="m503.12 372.75h-15.97v-40.82c0-4.896-3.984-8.88-8.881-8.88h-90.52v-40.82c0-4.896-3.983-8.88-8.88-8.88h-15.969v-15.97c0-4.896-3.984-8.88-8.881-8.88h-15.97v-15.97c0-4.896-3.983-8.88-8.88-8.88h-22.09c-4.896 0-8.88 3.983-8.88 8.88v22.09c0 4.896 3.983 8.88 8.88 8.88h15.97v59.55h-9.85v-40.82c0-4.896-3.983-8.88-8.88-8.88h-22.09c-4.896 0-8.881 3.983-8.881 8.88v115.37h-34.698v-59.55h15.97c4.896 0 8.88-3.983 8.88-8.88v-65.67h15.97c4.896 0 8.88-3.983 8.88-8.88v-40.82h40.82c4.896 0 8.88-3.983 8.88-8.88v-22.09c0-4.896-3.983-8.88-8.88-8.88h-46.94c-4.896 0-8.881 3.984-8.881 8.88v15.97h-34.699v-15.97c0-4.896-3.983-8.88-8.88-8.88h-15.97v-40.82c0-4.896-3.983-8.88-8.88-8.88h-22.09c-4.896 0-8.88 3.983-8.88 8.88v140.22h-9.85v-15.969c0-4.897-3.984-8.881-8.881-8.881h-15.969v-34.7h15.97c4.896 0 8.88-3.983 8.88-8.88v-22.09c0-4.896-3.983-8.88-8.88-8.88h-22.09c-4.896 0-8.88 3.984-8.88 8.88v15.97h-9.85v-15.969c0-4.897-3.984-8.881-8.881-8.881h-96.638c-4.896 0-8.881 3.984-8.881 8.881v71.788c0 4.897 3.984 8.881 8.881 8.881h22.089c4.896 0 8.88-3.983 8.88-8.88v-40.82h34.7v40.819c0 4.897 3.984 8.881 8.881 8.881h15.969v65.669c0 4.897 3.984 8.881 8.881 8.881h46.938c4.896 0 8.881-3.984 8.881-8.881v-15.969h15.969c4.896 0 8.881-3.984 8.881-8.881v-15.969h15.97c4.896 0 8.88-3.983 8.88-8.88v-15.97h9.851v59.55h-40.82c-4.896 0-8.88 3.984-8.88 8.88v22.09c0 4.896 3.983 8.88 8.88 8.88h15.97v59.55h-15.97c-4.896 0-8.88 3.984-8.88 8.88v71.79c0 4.896 3.983 8.88 8.88 8.88h71.79c4.896 0 8.88-3.983 8.88-8.88v-15.97h40.82c4.896 0 8.88-3.983 8.88-8.88v-46.94c0-4.896-3.983-8.88-8.88-8.88h-15.971v-9.85h15.971c4.896 0 8.88-3.983 8.88-8.88v-15.97h32.05c4.143 0 7.5-3.358 7.5-7.5s-3.357-7.5-7.5-7.5h-38.17c-4.896 0-8.88 3.983-8.88 8.88v15.97h-9.851v-109.25h9.851v40.82c0 4.896 3.983 8.88 8.88 8.88h22.09c4.896 0 8.88-3.983 8.88-8.88v-65.67h9.851v15.97c0 4.896 3.983 8.88 8.88 8.88h15.97v40.82c0 4.896 3.983 8.88 8.88 8.88h90.521v34.7h-9.853v-15.97c0-4.896-3.983-8.88-8.88-8.88h-46.94c-4.896 0-8.881 3.983-8.881 8.88v15.97h-17.35c-4.143 0-7.5 3.358-7.5 7.5s3.357 7.5 7.5 7.5h23.47c4.896 0 8.88-3.983 8.88-8.88v-15.97h34.7v15.97c0 4.896 3.983 8.88 8.88 8.88h15.971v9.85h-90.52c-4.896 0-8.88 3.983-8.88 8.88v40.82h-9.85v-40.82c0-4.896-3.984-8.88-8.881-8.88h-22.09c-4.896 0-8.88 3.983-8.88 8.88v46.94c0 4.896 3.983 8.88 8.88 8.88h15.971v40.82c0 4.896 3.983 8.88 8.88 8.88h46.939c4.896 0 8.88-3.983 8.88-8.88v-40.82h9.851v15.97c0 4.896 3.983 8.88 8.88 8.88h15.97v15.97c0 4.896 3.983 8.88 8.88 8.88h46.94c4.896 0 8.88-3.983 8.88-8.88v-46.94c0-4.896-3.983-8.88-8.88-8.88h-65.67v-9.85h40.819c4.896 0 8.881-3.983 8.881-8.88v-15.97h15.97c4.896 0 8.88-3.983 8.88-8.88v-22.09c0-4.897-3.983-8.88-8.88-8.88zm-214.77-183.8h34.7v9.85h-34.7zm-149.1 0h9.85v9.85h-9.85zm34.7 109.25h-15.969c-4.896 0-8.881 3.984-8.881 8.881v15.969h-34.7v-65.669c0-4.897-3.984-8.881-8.881-8.881h-15.969v-40.819c0-4.897-3.984-8.881-8.881-8.881h-46.939c-4.896 0-8.881 3.984-8.881 8.881v40.819h-9.849v-59.55h84.4v15.969c0 4.897 3.984 8.881 8.881 8.881h15.969v40.819c0 4.897 3.984 8.881 8.881 8.881h15.969v15.969c0 4.897 3.984 8.881 8.881 8.881h15.97v9.85zm33.73-49.7c-4.896 0-8.88 3.983-8.88 8.88v15.97h-9.85v-134.1h9.85v40.82c0 4.896 3.983 8.88 8.88 8.88h15.971v15.97c0 4.896 3.983 8.88 8.88 8.88h40.819v34.7h-15.97c-4.896 0-8.88 3.983-8.88 8.88v65.67h-9.85v-65.67c0-4.896-3.983-8.88-8.88-8.88zm40.82 223.65h-9.85v-15.97c0-4.896-3.983-8.88-8.88-8.88h-15.97v-9.85h34.7zm0 24.85h-59.55v-59.55h9.85v15.97c0 4.896 3.983 8.88 8.88 8.88h15.971v15.97c0 4.896 3.983 8.88 8.88 8.88h15.97v9.85zm49.7-59.55v34.7h-34.7v-40.82c0-4.896-3.983-8.88-8.88-8.88h-40.82v-65.67c0-4.896-3.983-8.88-8.88-8.88h-15.97v-9.85h34.7v65.67c0 4.896 3.983 8.88 8.88 8.88h40.819v15.97c0 4.896 3.984 8.88 8.881 8.88zm15-198.8h9.85v9.85h-9.85zm24.85 173.95h9.851v34.7h-9.851zm158.95 84.4h-34.7v-15.97c0-4.896-3.983-8.88-8.88-8.88h-15.97v-9.85h59.55zm-24.85-74.55h-40.82c-4.896 0-8.88 3.984-8.88 8.88v15.97h-15.97c-4.896 0-8.881 3.984-8.881 8.88v40.82h-34.699v-34.7h15.97c4.896 0 8.88-3.983 8.88-8.88v-40.82h84.4zm24.85-24.85h-9.85v-9.85h9.85z"/><path d="m8.88 512h146.34c4.896 0 8.88-3.983 8.88-8.88v-146.34c0-4.896-3.983-8.88-8.88-8.88h-146.34c-4.896 0-8.88 3.983-8.88 8.88v146.34c0 4.897 3.983 8.88 8.88 8.88zm6.12-149.1h134.1v134.1h-134.1z"/><path d="m130.37 372.75h-96.641c-4.896 0-8.88 3.983-8.88 8.88v96.64c0 4.896 3.983 8.88 8.88 8.88h38.171c4.143 0 7.5-3.358 7.5-7.5s-3.357-7.5-7.5-7.5h-32.05v-84.4h84.4v84.4h-17.35c-4.143 0-7.5 3.358-7.5 7.5s3.357 7.5 7.5 7.5h23.47c4.896 0 8.88-3.983 8.88-8.88v-96.64c0-4.897-3.983-8.88-8.88-8.88z"/><path d="m114.4 453.42v-46.94c0-4.896-3.983-8.88-8.88-8.88h-46.94c-4.896 0-8.88 3.983-8.88 8.88v46.94c0 4.896 3.983 8.88 8.88 8.88h46.94c4.897 0 8.88-3.984 8.88-8.88zm-15-6.12h-34.7v-34.7h34.7z"/></g></svg>
+      </footer>
+    </article>
+</section>
 </body>
 </html>
