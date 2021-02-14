@@ -39,10 +39,10 @@ body:not(:-moz-handler-blocked) fieldset {
   --dark-gray: #171717bf;
   --light-gray: #a09d9d;
   --transparent-gray: #040404af;
-  --dark-red: #470c15;
-  --red: #8d2333;
+  --dark-blue: #074d50;
+  --blue: #107477;
+  --gold: #aa8556;
   --transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
-  --text-shadow: #a9a9a9 0px -1px 0.25em, #a9a9a9 0px 0px 0.125em;
 
   /* variables for calculated layout */
   --main-width: 100vw;
@@ -72,7 +72,7 @@ body:not(:-moz-handler-blocked) fieldset {
 body {
   display: flex;
   justify-content: center;
-  background: linear-gradient(20deg, var(--black), var(--dark-red));
+  background: linear-gradient(20deg, var(--black), var(--dark-blue));
   background-size: 100vw 100vh;
   background-attachment: fixed;
 }
@@ -98,28 +98,28 @@ body {
   background-size: cover;
 }
 .movie-info__name {
-  margin: 15px;
-  color: var(--white);
+  height: 70px;
+  line-height: 70px;
+  margin: 20px 0;
   font-size: 1.3rem;
-  line-height: 1.2;
   letter-spacing: 0.1em;
   text-align: center;
   text-transform: uppercase;
-  text-shadow: var(--text-shadow);
+  color: var(--gold);
+  text-shadow: var(--gold) 0px 0px 4px 0px, var(--gold) 0px 0px 4px 0px inset;
+  background: black;
+  border: 2px solid var(--gold);
 }
 .movie-info__poster {
   width: 100%;
   order: -1;
-  box-shadow: rgb(0 0 0 / 24%) 0px 11px 20px 20px, rgb(0 0 0 / 22%) -6px 0px 17px 8px, rgb(16 16 16 / 56%) 1px -7px 11px 10px, rgb(0 0 0 / 35%) 0px 11px 20px 20px;
+  border: 2px solid var(--gold);
 }
 .movie-info__label-list {
   height: var(--movie-info-label-list-height);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  box-shadow: rgb(2 2 2 / 59%) 0px 9px 20px 6px, rgb(0 0 0 / 49%) -8px 0px 20px 6px, rgb(1 1 1 / 39%) -1px -9px 20px 5px, rgb(0 0 0 / 35%) -1px 13px 20px 5px;
-  background: var(--black);
-  border-radius: 50%;
 }
 .movie-info__label-item {
   width: var(--movie-info-label-item-width);
@@ -128,8 +128,9 @@ body {
   padding: 5px;
   transform: rotate(45deg);
   color: var(--white);
-  border: 1px solid var(--white);
-  box-shadow: 0 0 0.25em var(--white), 0 0 0.125em var(--white);
+  border: 1px solid var(--gold);
+  box-shadow: 0 0 0.25em var(--gold), 0 0 0.125em var(--gold);
+  background: #032f31;
 }
 .movie-info__label {
   height: 100%;
@@ -142,7 +143,7 @@ body {
 .movie-info__icon {
   width: 50%;
   height: 50%;
-  fill: var(--white);
+  fill: var(--gold);
 }
 .movie-info__value {
   margin-top: 5px;
@@ -178,7 +179,7 @@ body {
   align-items: center;
   position: relative;
   color: var(--white);
-  background-color: var(--red);
+  background-color: var(--blue);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   border-bottom: 3px dashed var(--black);
@@ -243,13 +244,13 @@ body {
   fill: var(--dark-gray);
 }
 .ticket__code-info p span{
-  color: var(--red);
+  color: var(--blue);
   font-weight: bold;
 }
 .ticket__heading {
   font-weight: bold;
   text-transform: uppercase;
-  color: var(--red);
+  color: var(--blue);
   margin-bottom: 7px;
 }
 .ticket__field {
@@ -281,7 +282,7 @@ body {
   content: '';
   width: 20px;
   height: 20px;
-  background: #8d2333;
+  background: var(--blue);
   position: absolute;
   bottom: -10px;
   right: -10px;
@@ -403,38 +404,43 @@ body {
 
 /* -------------------- FORM INTERACTION STYLES -------------------- */
 .control:hover {
-  box-shadow: #f7f7f7 0px 0px 4px 0px, #ffffff 0px 0px 4px 0px inset;
+  box-shadow: var(--gold) 0px 0px 4px 0px, var(--gold) 0px 0px 4px 0px inset;
 }
 .control:focus-within {
-  box-shadow: var(--red) 0px 0px 4px 0px, var(--red) 0px 0px 4px 0px inset;
+  box-shadow: var(--blue) 0px 0px 4px 0px, var(--blue) 0px 0px 4px 0px inset;
 }
 .control:hover,
 .control:focus-within  {
   background-color: var(--black);
 }
+.control:hover .control__name {
+  color: var(--gold);
+  text-shadow: var(--gold) 0px -1px 0.25em, var(--gold) 0px 0px 0.125em;
+}
 .control:focus-within .control__name {
-  color: var(--red);
-  text-shadow: var(--red) 0px -1px 0.25em, var(--red) 0px 0px 0.125em;
+  color: var(--blue);
+  text-shadow: var(--blue) 0px -1px 0.25em, var(--blue) 0px 0px 0.125em;
 }
 .day-control__direction-input:hover  + * .control__icon,
 .day-control__direction-input:checked + * .control__icon {
-  fill: var(--red);
+  fill: var(--blue);
 }
 .day-control__input:focus + .control__box,
 .time-control__input:focus + .control__box,
 .day-control__input:hover + .control__box,
 .time-control__input:hover + .control__box {
-  color: var(--red);
-  border-color: var(--red);
+  color: var(--gold);
+  border-color: var(--blue);
 }
 .day-control__input:checked + .control__box,
 .time-control__input:checked + .control__box {
-  color: var(--red);
-  background-color: var(--dark-red);
+  color: var(--gold);
+  background-color: var(--dark-blue);
+  border-color: var(--blue);
 }
 .seat-control__input:focus + .control__box,
 .seat-control__input:not(:disabled):hover + .control__box {
-  border-color: var(--red);
+  border-color: var(--blue);
 }
 .seat-control__input:not(:checked):not(:disabled):hover + .control__box,
 .seat-control__input:not(:checked):focus + .control__box {
@@ -449,10 +455,11 @@ body {
 .submit-button:hover,
 .submit-button:focus {
   text-shadow: 1px 1px 2px #aaaaaa;
-  outline-color: rgba(255, 255, 255, 0);
+  border-color: var(--gold);
+  outline-color: var(--gold);
   outline-offset: 15px;
   background-color: var(--black);
-  box-shadow: inset 0 0 15px rgba(255, 255, 255, .5), 0 0 15px rgba(255, 255, 255, .2);
+  box-shadow: inset 0 0 15px var(--gold), 0 0 15px var(--gold);
 }
 
 /* -------------------- ADAPTIVE STYLES -------------------- */
